@@ -19,7 +19,7 @@ public class LoginController {
 
 
     @PostMapping("/ajaxLogin")
-    public Response ajaxLogin(UserDemo userDemo){
+    public Response ajaxLogin(UserDemo userDemo) {
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
@@ -32,35 +32,32 @@ public class LoginController {
 //            subject.checkRole("admin");
 //            subject.checkPermissions("query", "add");
         } catch (AuthenticationException e) {
-            return ResponseUtil.buildFail(201,"用户名密码错误");
+            return ResponseUtil.buildFail(201, "用户名密码错误");
         } catch (AuthorizationException e) {
-            return ResponseUtil.buildFail(202,"没有权限");
+            return ResponseUtil.buildFail(202, "没有权限");
         }
         return ResponseUtil.buildSuccess("登录成功");
     }
 
     @GetMapping("/login")
-    public Response login(UserDemo userDemo){
+    public Response login(Integer type) {
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-                userDemo.getName(),
-                userDemo.getPassword()
-        );
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(type==1?"nxl":"zhangsan", "123456");
         try {
             subject.login(usernamePasswordToken);
         } catch (AuthenticationException e) {
-            return ResponseUtil.buildFail(201,"用户名密码错误");
+            return ResponseUtil.buildFail(201, "用户名密码错误");
         } catch (AuthorizationException e) {
-            return ResponseUtil.buildFail(202,"没有权限");
+            return ResponseUtil.buildFail(202, "没有权限");
         }
         return ResponseUtil.buildSuccess("登录成功");
     }
 
 
     @GetMapping("/unauth")
-    public Response unauth(){
-        return ResponseUtil.buildFail(203,"未登录");
+    public Response unauth() {
+        return ResponseUtil.buildFail(203, "未登录");
     }
 
 
