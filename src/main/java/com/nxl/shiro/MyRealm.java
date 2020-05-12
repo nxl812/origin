@@ -49,8 +49,9 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        //登录的
+        //登录的。/login回到这
         //加这一步的目的是在Post请求的时候会先进认证，然后在到请求
+        //？？？没验证
         if (authenticationToken.getPrincipal() == null) {
             return null;
         }
