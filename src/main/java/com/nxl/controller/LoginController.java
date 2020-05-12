@@ -12,6 +12,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,7 +41,7 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public Response login(Integer type) {
+    public Response login(@RequestParam(defaultValue = "1") Integer type) {
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(type==1?"nxl":"zhangsan", "123456");
