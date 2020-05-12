@@ -15,9 +15,9 @@ public class UserDemo implements Serializable {
     private String id;
     private String name;
     private String password;
-    private Set roleSet;
+    private Set<RoleDemo> roleSet;
 
-    public UserDemo(String id, String name, String password, Set roleSet) {
+    public UserDemo(String id, String name, String password, Set<RoleDemo> roleSet) {
         this.id = id;
         this.name = name;
         this.password = password;

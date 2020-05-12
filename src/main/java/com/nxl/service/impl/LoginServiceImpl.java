@@ -13,11 +13,10 @@ import java.util.Set;
 
 @Service
 public class LoginServiceImpl implements LoginServiceI {
-    //https://www.jianshu.com/p/7f724bec3dc3
     @Override
     public UserDemo getUserByName(String name) {
         //模拟数据库查询，正常情况此处是从数据库或者缓存查询。
-        return getMapByName(name);
+        return getByName(name);
     }
 
     /**
@@ -25,9 +24,9 @@ public class LoginServiceImpl implements LoginServiceI {
      * @param userName
      * @return
      */
-    private UserDemo getMapByName(String userName){
-        //共添加两个用户，两个用户都是admin一个角色，
-        //wsl有query和add权限，zhangsan只有一个query权限
+    private UserDemo getByName(String userName){
+        //共添加两个用户，nxl用户是admin,zhangsan是user角色，
+        //nxl有query和add权限，zhangsan只有一个query权限
         PermissionDemo permissions1 = new PermissionDemo("1","query");
         PermissionDemo permissions2 = new PermissionDemo("2","add");
         Set<PermissionDemo> permissionsSet = new HashSet<>();
@@ -36,7 +35,7 @@ public class LoginServiceImpl implements LoginServiceI {
         RoleDemo role = new RoleDemo("1","admin",permissionsSet);
         Set<RoleDemo> roleSet = new HashSet<>();
         roleSet.add(role);
-        UserDemo user = new UserDemo("1","wsl","123456",roleSet);
+        UserDemo user = new UserDemo("1","nxl","123456",roleSet);
         Map<String ,UserDemo> map = new HashMap<>();
         map.put(user.getName(), user);
 
