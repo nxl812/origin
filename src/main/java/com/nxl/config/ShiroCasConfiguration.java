@@ -47,17 +47,20 @@ public class ShiroCasConfiguration{
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> map = new HashMap<>();
-        //登出
-        map.put("/logout", "anon");
+        //注意过滤器配置顺序 不能颠倒
+        //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了，登出后跳转配置的loginUrl
+        map.put("/logout", "logout");
+        // 配置不会被拦截的链接 顺序判断
+        map.put("/static/**", "anon");
+        map.put("/ajaxLogin", "anon");
         map.put("/login", "anon");
-        //对所有用户认证
         map.put("/**", "authc");
-        //登录
-        shiroFilterFactoryBean.setLoginUrl("/gotoLogin");
+        //配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据
+        shiroFilterFactoryBean.setLoginUrl("/unauth");
         //首页
 //        shiroFilterFactoryBean.setSuccessUrl("/index");
         //错误页面，认证不通过跳转
-//        shiroFilterFactoryBean.setUnauthorizedUrl("/gotoLogin");
+        //shiroFilterFactoryBean.setUnauthorizedUrl("");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }

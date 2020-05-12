@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
 
-    @PostMapping("/login")
-    public Response login(UserDemo userDemo){
+    @PostMapping("/ajaxLogin")
+    public Response ajaxLogin(UserDemo userDemo){
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
@@ -38,6 +38,31 @@ public class LoginController {
         }
         return ResponseUtil.buildSuccess("登录成功");
     }
+
+    @GetMapping("/login")
+    public Response login(UserDemo userDemo){
+        //添加用户认证信息
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
+                userDemo.getName(),
+                userDemo.getPassword()
+        );
+        try {
+            subject.login(usernamePasswordToken);
+        } catch (AuthenticationException e) {
+            return ResponseUtil.buildFail(201,"用户名密码错误");
+        } catch (AuthorizationException e) {
+            return ResponseUtil.buildFail(202,"没有权限");
+        }
+        return ResponseUtil.buildSuccess("登录成功");
+    }
+
+
+    @GetMapping("/unauth")
+    public Response unauth(){
+        return ResponseUtil.buildFail(203,"未登录");
+    }
+
 
     //注解验角色和权限
     @RequiresRoles("admin")

@@ -11,8 +11,4 @@ public class JumpController {
         return "success";
     }
 
-    @GetMapping("/gotoLogin")
-    public String gotoLogin(){
-        return "login";
-    }
 }

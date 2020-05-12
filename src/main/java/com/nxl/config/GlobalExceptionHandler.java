@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @Order(1)
     public Response catchShiroException(AuthorizationException e){
         //这是没有权限的异常，mdd
-        return ResponseUtil.buildFail(203,"没的权限");
+        return ResponseUtil.buildFail(202,"没的权限");
     }
 
 
