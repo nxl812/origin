@@ -13,6 +13,10 @@
 
     <context id="default" targetRuntime="MyBatis3">
 
+        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
         <!-- optional，旨在创建class时，对注释进行控制 -->
         <commentGenerator>
             <property name="suppressDate" value="true"/>
