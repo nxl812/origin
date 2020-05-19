@@ -70,10 +70,26 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
+        <!--
+        schema即为数据库名, tableName为数据库中的对应的数据库表名或视图名, domainObjectName是要生成的实体类名,
+        如果想要mapper配置文件加入sql的where条件查询, 可以将enableCountByExample等设为true,
+        这样就会生成一个对应domainObjectName的Example类, enableCountByExample等设为false时,
+        就不会生成对应的Example类了.
 
+        table其他属性：
+        enableCountByExample="false"
+        enableUpdateByExample="false"
+        enableDeleteByExample="false"
+        enableSelectByExample="false"
+        selectByExampleQueryId="false"
+
+        如果table里边不配置property，默认字段都生成为类属性。
+        <ignoreColumn column="FRED" />//忽略字段
+        <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />//无论字段是什么类型，生成的类属性都是varchar。
+        -->
         <table tableName="user" domainObjectName="User" delimitAllColumns="true"></table>
 <!--        <table tableName="test_condition" domainObjectName="TestCondition" delimitAllColumns="true"></table>-->
-<!--        <table schema="" tableName="bas_dictionary" domainObjectName="BasDictionary" delimitAllColumns="true"></table>-->
+<!--        <table tableName="bas_dictionary" domainObjectName="BasDictionary" delimitAllColumns="true"></table>-->
 <!--        <table tableName="download_success" domainObjectName="downloadSuccess" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="mmall_product" domainObjectName="Product" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <columnOverride column="detail" jdbcType="VARCHAR" />-->
