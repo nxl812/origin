@@ -71,7 +71,9 @@
         </javaClientGenerator>
 
 
-        <table tableName="user" domainObjectName="User"></table>
+        <table tableName="user" domainObjectName="User" delimitAllColumns="true"></table>
+<!--        <table tableName="test_condition" domainObjectName="TestCondition" delimitAllColumns="true"></table>-->
+<!--        <table schema="" tableName="bas_dictionary" domainObjectName="BasDictionary" delimitAllColumns="true"></table>-->
 <!--        <table tableName="download_success" domainObjectName="downloadSuccess" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="mmall_product" domainObjectName="Product" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <columnOverride column="detail" jdbcType="VARCHAR" />-->

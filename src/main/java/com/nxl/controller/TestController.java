@@ -1,6 +1,5 @@
 package com.nxl.controller;
 
-import com.google.gson.Gson;
 import com.nxl.pojo.mybatis.User;
 import com.nxl.service.UserServiceI;
 import org.springframework.web.bind.annotation.GetMapping;
