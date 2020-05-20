@@ -1,5 +1,6 @@
 package com.nxl.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,8 +12,9 @@ import java.io.Serializable;
 @Setter
 @Accessors(chain = true)
 @NoArgsConstructor
+@AllArgsConstructor
 public class GlobalException extends Exception implements Serializable {
 
-    private String msg;
     private Integer code;
+    private String msg;
 }

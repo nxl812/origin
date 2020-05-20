@@ -11,7 +11,8 @@ import java.util.Date;
 public class TaskDemo {
 
 
-    @Scheduled(cron="*/5 * * * * *")
+//    @Scheduled(cron="*/5 * * * * *")
+//    @Scheduled(cron="* * 11 * * *")
     public void doSomething() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
