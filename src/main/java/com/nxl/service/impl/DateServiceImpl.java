@@ -71,8 +71,12 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
     @Override
     public String addWorkDay(String day, String pattern, Integer add) throws GlobalException {
         Date parse = checkRequestParam(day,pattern,add);
-
         Long startTime = parse.getTime();
+
+//        Map<Long,Integer> holidayMapBk = new HashMap<>();//下面holidayMap替换为holidayMapBk
+//        final Long START_TIME_FINAL= startTime;
+//        holidayMap.keySet().stream().filter(e-> e.compareTo(START_TIME_FINAL)>=0).forEach(e-> holidayMapBk.put(e,holidayMapBk.get(e)));
+
         for (int i = 0; i <= add; i++) {//先判断这天到底是个啥
             if (i>0){
                 startTime+=ONE_DAY_TIMESTAMP;
@@ -89,6 +93,12 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
                 startTime+=ONE_DAY_TIMESTAMP;
             }
         }
+//        判断是不是超出最大时间
+//        if (startTime>maxTimeStamp){
+//            String format = String.format("addWorkDay result over maxTimeStamp,startTime:%s", startTime.toString());
+//            log.error(format);
+//            throw new GlobalException(500,format);
+//        }
         SimpleDateFormat sdf = new SimpleDateFormat(Constant.yyyyMMdd);
         String format = sdf.format(new Date(startTime));
         return format;
