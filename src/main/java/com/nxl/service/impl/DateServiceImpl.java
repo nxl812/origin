@@ -77,13 +77,15 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
             if (i>0){
                 startTime+=ONE_DAY_TIMESTAMP;
             }
+
             if ( holidayMap.containsKey(startTime)&&holidayMap.get(startTime).equals(Constant.HolidayDetail.MORE_WORD) ){
                 continue;
             }
-            while ( (holidayMap.containsKey(startTime)
-                    &&holidayMap.get(startTime).equals(Constant.HolidayDetail.HOLIDAY))
-                        ||(  ( holidayMap.containsKey(startTime)
-                    &&!holidayMap.get(startTime).equals(Constant.HolidayDetail.MORE_WORD)) &&  isWeekend(startTime) )){
+
+            while (  (holidayMap.containsKey(startTime) && holidayMap.get(startTime).equals(Constant.HolidayDetail.HOLIDAY))
+                        ||
+                        (  (holidayMap.containsKey(startTime) && !holidayMap.get(startTime).equals(Constant.HolidayDetail.MORE_WORD))  && isWeekend(startTime) )
+                  ){
                 startTime+=ONE_DAY_TIMESTAMP;
             }
         }
