@@ -87,8 +87,8 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
 //                continue;
 //            }
 
-            Integer type = holidayMap.get(startTime);
-            while (  (null!=type && type.equals(Constant.HolidayDetail.HOLIDAY))
+            Integer type;
+            while (  (null!=(type = holidayMap.get(startTime)) && type.equals(Constant.HolidayDetail.HOLIDAY))
                     ||
                     (  (null!=type && !type.equals(Constant.HolidayDetail.MORE_WORD))  && isWeekend(startTime) )
             ){
@@ -97,11 +97,11 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
 
         }
 //        判断是不是超出最大时间，超出最大时间不太可信
-        if (startTime>maxTimeStamp){
-            String format = String.format("addWorkDay result over maxTimeStamp,startTime:%s", startTime.toString());
-            log.error(format);
-            throw new GlobalException(500,format);
-        }
+//        if (startTime>maxTimeStamp){
+//            String format = String.format("addWorkDay result over maxTimeStamp,startTime:%s", startTime.toString());
+//            log.error(format);
+//            throw new GlobalException(500,format);
+//        }
         SimpleDateFormat sdf = new SimpleDateFormat(Constant.yyyyMMdd);
         String format = sdf.format(new Date(startTime));
         return format;
