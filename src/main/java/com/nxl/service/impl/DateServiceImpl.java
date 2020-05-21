@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @Service
 @Getter
@@ -118,6 +119,14 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
             log.error(format);
             throw new GlobalException(500,format);
         }
+        if (Constant.yyyyMMdd.equals(pattern)){
+            boolean matches = Pattern.matches("^((?!0000)[0-9]{4}((0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])(29|30)|(0[13578]|1[02])31)|([0-9]{2}(0[48]|[2468][048]|[13579][26])|(0[48]|[2468][048]|[13579][26])00)0229)$", day);
+            if (!matches){
+                String format = String.format("addWorkDay request param day error,day:%s", day);
+                log.error(format);
+                throw new GlobalException(500,format);
+            }
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         Date parse = null;
@@ -137,9 +146,8 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
         flushHoliday();
     }
 
-
     public static void main(String[] args) {
-        Date date = new Date(1593705600000L);
-        System.out.println(date);
+        boolean matches = Pattern.matches("^((?!0000)[0-9]{4}((0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])(29|30)|(0[13578]|1[02])31)|([0-9]{2}(0[48]|[2468][048]|[13579][26])|(0[48]|[2468][048]|[13579][26])00)0229)$", "20200229");
+        System.out.println(matches);
     }
 }
