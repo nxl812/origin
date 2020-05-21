@@ -87,8 +87,9 @@
         <ignoreColumn column="FRED" />//忽略字段
         <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />//无论字段是什么类型，生成的类属性都是varchar。
         -->
-<!--        <table tableName="user" domainObjectName="User" delimitAllColumns="true"></table>-->
-        <table tableName="holiday_detail" domainObjectName="HolidayDetail" delimitAllColumns="true"></table>
+        <table tableName="user" domainObjectName="User" delimitAllColumns="true"></table>
+        <table tableName="user_account" domainObjectName="UserAccount" delimitAllColumns="true"></table>
+<!--        <table tableName="holiday_detail" domainObjectName="HolidayDetail" delimitAllColumns="true"></table>-->
 <!--        <table tableName="bas_dictionary" domainObjectName="BasDictionary" delimitAllColumns="true"></table>-->
 <!--        <table tableName="download_success" domainObjectName="downloadSuccess" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="mmall_product" domainObjectName="Product" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->

@@ -56,8 +56,8 @@ public class LoginController {
     }
 
 
-    @GetMapping("/unauth")
-    public Response unauth() {
+    @GetMapping("/unLogin")
+    public Response unLogin() {
         return ResponseUtil.buildFail(203, "未登录");
     }
 
