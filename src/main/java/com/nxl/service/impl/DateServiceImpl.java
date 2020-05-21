@@ -73,7 +73,7 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
         Date parse = checkRequestParam(day,pattern,add);
         Long startTime = parse.getTime();
 
-//        Map<Long,Integer> holidayMapBk = new HashMap<>();//下面holidayMap替换为holidayMapBk
+//        Map<Long,Integer> holidayMapBk = new HashMap<>();//下面holidayMap替换为holidayMapBk,感觉目前没啥必要=以后数据量大了可以启用
 //        final Long START_TIME_FINAL= startTime;
 //        holidayMap.keySet().stream().filter(e-> e.compareTo(START_TIME_FINAL)>=0).forEach(e-> holidayMapBk.put(e,holidayMapBk.get(e)));
 
@@ -82,23 +82,25 @@ public class DateServiceImpl implements DateServiceI, CommandLineRunner {
                 startTime+=ONE_DAY_TIMESTAMP;
             }
 
-            if ( holidayMap.containsKey(startTime)&&holidayMap.get(startTime).equals(Constant.HolidayDetail.MORE_WORD) ){
-                continue;
-            }
+//            if ( holidayMap.containsKey(startTime)&&holidayMap.get(startTime).equals(Constant.HolidayDetail.MORE_WORD) ){//不需要特殊管理调休日
+//                continue;
+//            }
 
-            while (  (holidayMap.containsKey(startTime) && holidayMap.get(startTime).equals(Constant.HolidayDetail.HOLIDAY))
-                        ||
-                        (  (holidayMap.containsKey(startTime) && !holidayMap.get(startTime).equals(Constant.HolidayDetail.MORE_WORD))  && isWeekend(startTime) )
-                  ){
+            Integer type = holidayMap.get(startTime);
+            while (  (null!=type && type.equals(Constant.HolidayDetail.HOLIDAY))
+                    ||
+                    (  (null!=type && !type.equals(Constant.HolidayDetail.MORE_WORD))  && isWeekend(startTime) )
+            ){
                 startTime+=ONE_DAY_TIMESTAMP;
             }
+
         }
-//        判断是不是超出最大时间
-//        if (startTime>maxTimeStamp){
-//            String format = String.format("addWorkDay result over maxTimeStamp,startTime:%s", startTime.toString());
-//            log.error(format);
-//            throw new GlobalException(500,format);
-//        }
+//        判断是不是超出最大时间，超出最大时间不太可信
+        if (startTime>maxTimeStamp){
+            String format = String.format("addWorkDay result over maxTimeStamp,startTime:%s", startTime.toString());
+            log.error(format);
+            throw new GlobalException(500,format);
+        }
         SimpleDateFormat sdf = new SimpleDateFormat(Constant.yyyyMMdd);
         String format = sdf.format(new Date(startTime));
         return format;
