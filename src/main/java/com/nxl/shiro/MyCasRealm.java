@@ -4,6 +4,7 @@ import com.nxl.config.CasProperties;
 import com.nxl.dao.mybatis.UserAccountMapper;
 import com.nxl.pojo.mybatis.UserAccount;
 import com.nxl.pojo.mybatis.UserAccountExample;
+import com.nxl.service.LoginServiceI;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.cas.CasAuthenticationException;
@@ -51,10 +52,8 @@ public class MyCasRealm extends CasRealm {
         this.casServerUrlPrefix = casServerUrlPrefix;
     }
 
-    public void setLoginSuccessUrl(String loginSuccessUrl) {
-        this.loginSuccessUrl = loginSuccessUrl;
-    }
-
+    @Resource
+    private LoginServiceI loginServiceImpl;
     @PostConstruct
     public void initProperty() {
         super.setCasServerUrlPrefix(casServerUrlPrefix);
@@ -74,7 +73,7 @@ public class MyCasRealm extends CasRealm {
 //        super.onLogout(arg0);
 //        logger.info("info:-------------->" + perms);
 //        return info;
-        return null;
+        return super.doGetAuthorizationInfo(arg0);
     }
 
 
@@ -97,7 +96,7 @@ public class MyCasRealm extends CasRealm {
             String url = casProperties.getShiroServerUrlPrefix() + casProperties.getCasFilterUrlPattern();
 
             //注意这里大坑，稍后说明
-            Assertion casAssertion = ticketValidator.validate(ticket, url);//"http://localhost:8080/index"
+            Assertion casAssertion = ticketValidator.validate(ticket, url);
             // get principal, user id and attributes
             AttributePrincipal casPrincipal = casAssertion.getPrincipal();
             String username = casPrincipal.getName();

@@ -10,12 +10,11 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@ConditionalOnExpression("'${using.shiro.cas}'=='false'")
 public class LoginController {
 
 
@@ -61,8 +60,12 @@ public class LoginController {
         return ResponseUtil.buildFail(203, "未登录");
     }
 
+//    @RequestMapping({"/","/index"})
+//    public String index() {
+//        return "index";
+//    }
 
-    //注解验角色和权限
+//      注解验角色和权限
     @RequiresRoles("admin")
     @RequiresPermissions("add")
     @GetMapping("/index")
