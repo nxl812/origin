@@ -32,8 +32,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@Configuration
-@ConditionalOnExpression("'${using.shiro.cas}'=='true'")
+//@Configuration
+//@ConditionalOnExpression("'${using.shiro.cas}'=='true'")
+@Deprecated
 public class ShiroCasConfiguration {
     private static Logger logger = LoggerFactory.getLogger(ShiroCasConfiguration.class);
 
@@ -55,7 +56,7 @@ public class ShiroCasConfiguration {
     //可选结束
 
 
-    @Bean(name = "myShiroCasRealm")
+//    @Bean(name = "myShiroCasRealm")
     public MyCasRealm myShiroCasRealm(EhCacheManager cacheManager) {
         MyCasRealm realm = new MyCasRealm();
         realm.setCacheManager(cacheManager);
@@ -67,7 +68,7 @@ public class ShiroCasConfiguration {
 
 
     //注册单点登出的listener
-    @Bean
+//    @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     // 优先级需要高于Cas的Filter
     public ServletListenerRegistrationBean<?> singleSignOutHttpSessionListener() {
@@ -78,7 +79,7 @@ public class ShiroCasConfiguration {
     }
 
 
-    @Bean
+//    @Bean
     public FilterRegistrationBean singleSignOutFilter() {
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setName("singleSignOutFilter");
@@ -96,7 +97,7 @@ public class ShiroCasConfiguration {
      * @author SHANHY
      * @create 2016年1月13日
      */
-    @Bean
+//    @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
         filterRegistration.setFilter(new DelegatingFilterProxy("shiroFilter"));
@@ -107,19 +108,19 @@ public class ShiroCasConfiguration {
         return filterRegistration;
     }
 
-    @Bean(name = "lifecycleBeanPostProcessor")
+//    @Bean(name = "lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
 
-    @Bean
+//    @Bean
     public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
         daap.setProxyTargetClass(true);
         return daap;
     }
 
-    @Bean(name = "securityManager")
+//    @Bean(name = "securityManager")
     public SecurityManager getDefaultWebSecurityManager(MyCasRealm myCasRealm) {
         DefaultWebSecurityManager dwsm = new DefaultWebSecurityManager();
         dwsm.setRealm(myCasRealm);
@@ -143,7 +144,7 @@ public class ShiroCasConfiguration {
         return dwsm;
     }
 
-    @Bean
+//    @Bean
     public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor aasa = new AuthorizationAttributeSourceAdvisor();
         aasa.setSecurityManager(securityManager);
@@ -185,7 +186,7 @@ public class ShiroCasConfiguration {
      * @author SHANHY
      * @create 2016年1月17日
      */
-    @Bean(name = "casFilter")
+//    @Bean(name = "casFilter")
     @Order(2)
     public CasFilter getCasFilter() {
         CasFilter casFilter = new CasFilter();
@@ -208,7 +209,7 @@ public class ShiroCasConfiguration {
      * @author SHANHY
      * @create 2016年1月14日
      */
-    @Bean(name = "shiroFilter")
+//    @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(SecurityManager securityManager, CasFilter casFilter) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 必须设置 SecurityManager
@@ -227,14 +228,14 @@ public class ShiroCasConfiguration {
         return shiroFilterFactoryBean;
     }
 
-    @Bean
+//    @Bean
     public EhCacheManager ehCacheManager() {
         EhCacheManager em = new EhCacheManager();
         em.setCacheManager(cacheManager());
         return em;
     }
 
-    @Bean("cacheManager2")
+//    @Bean("cacheManager2")
     CacheManager cacheManager() {
         return CacheManager.create();
     }
@@ -246,7 +247,7 @@ public class ShiroCasConfiguration {
      * @param securityManager
      * @return
      */
-    @Bean
+//    @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
@@ -295,7 +296,7 @@ public class ShiroCasConfiguration {
 //    }
 
     //可选
-    @Bean
+//    @Bean
     public SessionDAO sessionDAO() {
 //        if (Constant.CACHE_TYPE_REDIS.equals(cacheType)) {
 //            return redisSessionDAO();
@@ -309,8 +310,8 @@ public class ShiroCasConfiguration {
      * shiro session的管理，可选
      */
 //    @Bean
-//    public DefaultWebSessionManager sessionManager() {
-//        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+//    public NxlDefaultWebSessionManager sessionManager() {
+//        NxlDefaultWebSessionManager sessionManager = new NxlDefaultWebSessionManager();
 //        sessionManager.setGlobalSessionTimeout(tomcatTimeout * 1000);
 //        sessionManager.setSessionDAO(sessionDAO());
 //        Collection<SessionListener> listeners = new ArrayList<SessionListener>();

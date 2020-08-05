@@ -76,6 +76,10 @@
     select <include refid="Base_Column_List" /> from user
   </select>
 
+  <select id="getUserDynamic" resultMap="BaseResultMap">
+    select * from ${tableName} where id=#{id};
+  </select>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.nxl.pojo.mybatis.UserExample" >
     select
     <if test="distinct" >

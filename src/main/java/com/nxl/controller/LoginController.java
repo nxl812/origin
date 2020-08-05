@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@ConditionalOnExpression("'${using.shiro.cas}'=='false'")
 public class LoginController {
 
 

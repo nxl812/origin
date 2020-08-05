@@ -26,6 +26,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 
+@Deprecated
 public class MyCasRealm extends CasRealm {
     private static final Logger logger = LoggerFactory.getLogger(MyCasRealm.class);
     //cas需要单独服务，不想弄了

@@ -7,4 +7,6 @@ import java.util.List;
 public interface UserServiceI {
     List<User> getAllUser();
 
+    void getUserDynamic();
+
 }

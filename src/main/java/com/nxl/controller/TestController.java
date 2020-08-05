@@ -22,6 +22,7 @@ public class TestController {
     @GetMapping("/getAllUser")
     public List<User> getAllUser(){
         List<User> retList =  userServiceImpl.getAllUser();
+        userServiceImpl.getUserDynamic();
         return retList;
     }
 }

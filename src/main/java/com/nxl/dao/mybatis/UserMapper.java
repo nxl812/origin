@@ -30,4 +30,5 @@ public interface UserMapper {
 
     List<User> selectAll();
 
+    User getUserDynamic(@Param("tableName") String tableName, @Param("id")Integer id);
 }

@@ -5,8 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 
-@Component
-@ConfigurationProperties(prefix = "cas")
+//@Component
+//@ConfigurationProperties(prefix = "cas")
+@Deprecated
 public class CasProperties {
     @Value("${cas.casServerUrlPrefix}")
     public static   String casServerUrlPrefix;

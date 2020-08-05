@@ -2,23 +2,36 @@ package com.nxl.config;
 
 import com.nxl.shiro.MyRealm;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ConditionalOnExpression("'${using.shiro.redis}'=='false'")
-public class ShiroConfiguration {
-    private static Logger logger = LoggerFactory.getLogger(ShiroConfiguration.class);
+@ConditionalOnExpression("'${using.shiro.redis}'=='true'")
+public class ShiroRedisConfiguration {
+    private static Logger logger = LoggerFactory.getLogger(ShiroRedisConfiguration.class);
+
+    @Autowired
+    private ShiroRedisConfig shiroRedisConfig;
+    @Value("${shiro.sessionid.cookie.name:nxl_shiro_redis_cookie_prefix}")
+    private String sessionIdCookieName;
+
     @Bean
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
@@ -33,11 +46,44 @@ public class ShiroConfiguration {
         return myRealm;
     }
 
+    @Bean(name = "RedisManager")
+    public RedisManager redisManager() {
+        if (StringUtils.isEmpty(shiroRedisConfig.getHost())) {
+            throw new IllegalArgumentException("The config [spring.redisson.host] is blank.");
+        }
+
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(shiroRedisConfig.getHost());
+        redisManager.setPort(shiroRedisConfig.getPort());
+//        redisManager.setPassword(shiroRedisConfig.getPassword());
+        redisManager.setExpire(shiroRedisConfig.getExpire() <= 0 ? 1800 : shiroRedisConfig.getExpire());// 配置过期时间
+        redisManager.setTimeout(shiroRedisConfig.getTimeout());
+
+        logger.info("配置redis连接设置 ########## " + shiroRedisConfig.getHost() + ":::" + shiroRedisConfig.getPort());
+
+        return redisManager;
+    }
+
+    @Bean(name = "SessionDAO")
+    SessionDAO sessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
+    }
+
+    @Bean(name = "SessionManager")
+    public SessionManager sessionManager() {
+        NxlDefaultWebSessionManager sessionManager = new NxlDefaultWebSessionManager(sessionIdCookieName);
+        sessionManager.setSessionDAO(sessionDAO());
+        return sessionManager;
+    }
+
     //权限管理，配置主要是Realm的管理认证
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myRealm());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
