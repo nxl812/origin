@@ -41,7 +41,7 @@ public class ZipUtil {
                         unZipToTargetPath(tempFile, destDir.getCanonicalPath() + File.separator, "");
                         tempFile.delete();
                     } else {
-                        File tempFile = new File(destDir.getCanonicalPath()+fileHeader.getFileName());
+                        File tempFile = new File(destDir.getCanonicalPath() + File.separator + fileHeader.getFileName());
                         inputStream2File(inputStream, tempFile);
                     }
                 }
