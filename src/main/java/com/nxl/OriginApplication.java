@@ -2,6 +2,7 @@ package com.nxl;
 
 import org.junit.Test;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,7 +15,10 @@ import java.math.BigInteger;
 public class OriginApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OriginApplication.class, args);
+        SpringApplication application = new SpringApplication(OriginApplication.class);
+        application.setBannerMode(Banner.Mode.OFF);
+        application.run(args);
+//        SpringApplication.run(OriginApplication.class, args);
     }
 
     @Test
