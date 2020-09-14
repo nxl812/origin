@@ -10,18 +10,20 @@ import java.util.List;
 
 public class ZipUtil {
 
-
     public static void main(String[] args) {
         String targetPath = "/tmp/nxl/";
-        unZipToTargetPath(new File("D:\\project\\origin\\2.zip"), targetPath, "");
+        File tmpPath = new File(targetPath);
+        if (!tmpPath.exists()){
+            tmpPath.mkdir();
+        }
+        unZipToTargetPath(new File("D:\\Desktop-bk\\origin\\测试用zip (1).zip"), targetPath, "");
     }
 
     public static void unZipToTargetPath(File source, String targetPath, String password) {
         try {
             ZipFile zFile = new ZipFile(source);
             zFile.setFileNameCharset("GBK");
-            File destDir = new File(targetPath + source.getName().substring(0, source.getName().lastIndexOf(".")) + File.separator);
-            destDir.mkdir();
+            File destDir = new File(targetPath);
             // 验证.zip文件是否合法，包括文件是否存在、是否为zip文件、是否被损坏等
             if (!zFile.isValidZipFile()) {
                 throw new ZipException("压缩文件不合法,可能被损坏.");
@@ -38,12 +40,15 @@ public class ZipUtil {
                             || fileHeader.getFileName().endsWith(".7z")) {
                         File tempFile = new File(destDir.getCanonicalPath() + File.separator + fileHeader.getFileName());
                         inputStream2File(inputStream, tempFile);
-                        unZipToTargetPath(tempFile, destDir.getCanonicalPath() + File.separator, "");
+                        unZipToTargetPath(tempFile, destDir.getCanonicalPath() + File.separator + fileHeader.getFileName().substring(0, fileHeader.getFileName().lastIndexOf(".")), "");
                         tempFile.delete();
                     } else {
                         File tempFile = new File(destDir.getCanonicalPath() + File.separator + fileHeader.getFileName());
                         inputStream2File(inputStream, tempFile);
                     }
+                } else {
+                    File tempFile = new File(destDir.getCanonicalPath() + File.separator + fileHeader.getFileName());
+                    tempFile.mkdirs();
                 }
             }
         } catch (Exception e) {
